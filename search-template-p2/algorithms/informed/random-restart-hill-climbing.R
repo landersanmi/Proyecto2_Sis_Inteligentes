@@ -3,11 +3,14 @@ random.restart.hill.climbing = function(problem,
                                         max_iterations = 1000, 
                                         count_print = 100, 
                                         trace = FALSE, filename) {
-  # Get Start time
-  start_time       <- Sys.time()
   
+  
+  name_method      <- paste0("Random Restart Hill Climbing Search")
   state_initial    <- problem$state_initial 
   actions_possible <- problem$actions_possible
+  
+  # Get Start time
+  start_time       <- Sys.time()
   
   #  Lista donde se almacena el mejor resultado temporal
   best_temp_result <- list(parent = c(),
@@ -17,13 +20,15 @@ random.restart.hill.climbing = function(problem,
                           cost = get.cost(state = state_initial, problem = problem),
                           evaluation = get.evaluation(state_initial, problem))
   
+  limite <- 0
+  iteraciones <- 0
+  
   # Initialization of information for further analysis
   report <- data.frame(iteration = numeric(),
                        nodes_frontier = numeric(),
                        depth_of_expanded = numeric(),
                        nodes_added_frontier = numeric())
-  limite <- 0
-  iteraciones <- 0
+
   
   while (limite <= iterations) {
     
@@ -41,28 +46,25 @@ random.restart.hill.climbing = function(problem,
                                       trace = trace 
     )
     
-    # Si la evaluación del resultado temporal es superior a la almacenada como mejor temporal, esta misma se actualizara
-    if(result_temp$state_final$evaluation <= best_temp_result$evaluation){
+    #print("temp")
+    #print(get.knapsack.value(result_temp$state_final$state, problem))
+    #print("best")
+    #print(get.knapsack.value(best_temp_result$state, problem))
+    
+    # Si la evaluacion del resultado temporal es superior a la almacenada como mejor temporal, esta misma se actualizara
+    if( get.knapsack.value(result_temp$state_final$state, problem) >= get.knapsack.value(best_temp_result$state, problem)){
       best_temp_result <- result_temp$state_final
     }
-    
-    #Comprobar si el best_temp_result es estado final
-    if((is.final.state(best_temp_result$state, best_temp_result$state_final, problem))){
-      break
-    }
-    else{
-      limite <- limite + 1
-    }
-    
+
+    limite <- limite + 1
   }
   
-  
-  
+
   # Get runtime
   end_time <- Sys.time()
   
   result <- list()
-  result$name        <- paste0("Random Restart Hill Climbing:")
+  result$name        <- name_method
   result$runtime     <- end_time - start_time
   result$state_final <- best_temp_result
   result$report      <- report
@@ -70,3 +72,4 @@ random.restart.hill.climbing = function(problem,
   
   return(result)
 }
+
