@@ -60,12 +60,12 @@ local.beam.search = function(problem,
       # Current node is expanded
       sucessor_nodes[[limiteBeams]] <- local.expand.node(node_current[[limiteBeams]], actions_possible, problem)
       # Successor nodes are sorted ascending order of the evaluation function
-      sucessor_nodes[[limiteBeams]] <- sucessor_nodes[[limiteBeams]][order(sapply(sucessor_nodes[[limiteBeams]],function (x) x$evaluation))]
+      sucessor_nodes[[limiteBeams]] <- sucessor_nodes[[limiteBeams]][order(sapply(sucessor_nodes[[limiteBeams]],function (x) x$cost), decreasing = TRUE)]
       # Select best successor
       node_best_successor[[limiteBeams]] <- sucessor_nodes[[limiteBeams]][[1]]
       
       # The best successor is better than current node
-      if (node_best_successor[[limiteBeams]]$evaluation <= node_current[[limiteBeams]]$evaluation) {
+      if (get.knapsack.value(node_best_successor[[limiteBeams]]$state, problem) >= get.knapsack.value(node_current[[limiteBeams]]$state, problem)) {
         # Current node is updated
         node_current[[limiteBeams]] <- node_best_successor[[limiteBeams]]
         
@@ -85,7 +85,6 @@ local.beam.search = function(problem,
         break
       }
       
-      
       limiteBeams <- limiteBeams + 1
     }
     
@@ -104,14 +103,12 @@ local.beam.search = function(problem,
   result <- list()
   result$name    <- name_method
   result$runtime <- end_time - start_time
-  
-  node_current <- node_current[order(sapply(node_current,function (x) x$evaluation))]
-  
-  
-  to.string(state = node_current[[1]]$state, problem = problem)
-  
-  result$state_final <- node_current[[1]]
   result$report      <- report
+
+  # Select the best node of all the beams
+  node_current <- node_current[order(sapply(node_current,function (x) x$cost), decreasing = TRUE)]
+  to.string(state = node_current[[1]]$state, problem = problem)
+  result$state_final <- node_current[[1]]
   
   return(result)
 }
