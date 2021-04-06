@@ -167,6 +167,7 @@ mediaCoste <- 0.0
 desviacionTiempo <- 0.0
 desviacionCoste <- 0.0
 
+print(analisis3)
 
 for (i in 1:nrow(analisis3)) {
   print(round(analisis3[[2]][i], digits = 2))
@@ -175,3 +176,19 @@ for (i in 1:nrow(analisis3)) {
 mediaTiempo <- mediaTiempo / nrow(analisis3)
 print(mediaTiempo)
 
+
+
+for (i in 1:nrow(analisis3)) {
+  print(round(analisis3[[3]][i], digits = 2))
+  mediaCoste <- mediaCoste + round(analisis3[[3]][i], digits = 2)
+}
+mediaCoste <- mediaCoste / nrow(analisis3)
+print(mediaCoste)
+
+desviacionTiempo <- sd(analisis3[[2]])
+
+print(desviacionTiempo)
+
+desviacionCoste <- sd(analisis3[[3]])
+
+print(desviacionCoste)
