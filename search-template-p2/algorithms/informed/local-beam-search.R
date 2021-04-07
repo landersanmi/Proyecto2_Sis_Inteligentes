@@ -1,9 +1,14 @@
+# =======================================================================
+# Group Name: AmaIA
+# Students: Lander San Millan, Amaia Acha
+# =======================================================================
+
 local.beam.search = function(problem,
                              beams,
                              max_iterations = 1000,
                              count_print = 100,
                              trace = FALSE,
-                             filename){
+                             filename) {
   
   name_method      <- paste0("Local Beam Search")
   state_initial    <- problem$state_initial

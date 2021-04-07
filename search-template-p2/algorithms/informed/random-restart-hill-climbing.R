@@ -1,8 +1,14 @@
+# =======================================================================
+# Group Name: AmaIA
+# Students: Lander San Millan, Amaia Acha
+# =======================================================================
+
 random.restart.hill.climbing = function(problem, 
                                         iterations, 
                                         max_iterations = 1000, 
                                         count_print = 100, 
-                                        trace = FALSE, filename) {
+                                        trace = FALSE,
+                                        filename) {
   
   
   name_method      <- paste0("Random Restart Hill Climbing Search")
@@ -45,11 +51,6 @@ random.restart.hill.climbing = function(problem,
                                       count_print = count_print, 
                                       trace = trace 
     )
-    
-    #print("temp")
-    #print(get.knapsack.value(result_temp$state_final$state, problem))
-    #print("best")
-    #print(get.knapsack.value(best_temp_result$state, problem))
     
     # Si la evaluacion del resultado temporal es superior a la almacenada como mejor temporal, esta misma se actualizara
     if( get.knapsack.value(result_temp$state_final$state, problem) >= get.knapsack.value(best_temp_result$state, problem)){
